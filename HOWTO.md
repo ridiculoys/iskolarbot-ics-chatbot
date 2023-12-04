@@ -6,11 +6,11 @@ Here is the file structure of the repository.
 │   ├── <...>                           # source code (can be multiple directories, files, etc)
 │   └── SETUP.md                        # develeopment environment setup
 ├── presentation
-│   ├── CMSC190_JDCruz_journal.pdf      # IEEE journal
-│   ├── CMSC190_JDCruz_manuscript.pdf   # manuscript for clearance
-│   ├── CMSC190_JDCruz_poster.png       # A4 poster
-│   └── CMSC190_JDCruz_slides.pdf       # presentation slides in pdf
-│   └── CMSC190_JDCruz_videos.md        # md file containing video links
+│   ├── CMSC190_LGLTalip_journal.pdf      # IEEE journal
+│   ├── CMSC190_LGLTalip_manuscript.pdf   # manuscript for clearance
+│   ├── CMSC190_LGLTalip_poster.png       # A4 poster
+│   └── CMSC190_LGLTalip_slides.pdf       # presentation slides in pdf
+│   └── CMSC190_LGLTalip_videos.md        # md file containing video links
 ├── CHANGELOGS.md                       # enrollment history
 └── README.md                           # abstract and authors;
 ```
