@@ -2,5 +2,3 @@
 Authors: Louise Gabrielle L. Talip and Reginald Neil C. Recario
 
 Keywords: chatabot, research, assistant, openai, langchain, pdf, queries
-
-Read [How To Document](HOWTO.md) for more details.
