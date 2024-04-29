@@ -27,7 +27,6 @@ def setup_index(index_name):
     # if not using a starter index, you should specify a pod_type too
     spec = PodSpec()
 
-
   print("Setting up index name", index_name) 
 
   #deletes if exists 
@@ -57,11 +56,13 @@ def setup_index(index_name):
 """ 
 OPTIONS:
   ics-chatbot-ai
-  ics-chatbot-algorithms
   ics-chatbot-security
-  ics-chatbot-computer-vision
+  ics-chatbot-algorithms
+  ics-chatbot-os
+  ics-chatbot-hci
   ics-chatbot-general
 """
-options = ["ics-chatbot-ai", "ics-chatbot-algorithms", "ics-chatbot-security", "ics-chatbot-computer-vision", "ics-chatbot-general"]
+
+options = ["ics-chatbot-ai", "ics-chatbot-security", "ics-chatbot-algorithms", "ics-chatbot-os", "ics-chatbot-hci", "ics-chatbot-general"]
 index_name=options[4]
 setup_index(index_name)

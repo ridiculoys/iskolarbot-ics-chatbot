@@ -93,22 +93,24 @@ async def setup_summary_chain(index_name, filename):
   """ 
   OPTIONS:
     ai
-    datastructures_algorithms
     cryptography_security
-    computer_vision
+    datastructures_algorithms
+    os
+    hci
     general
   """
-  path_options=["ai", "datastructures_algorithms", "cryptography_security", "computer_vision", "general"]
+  path_options=["ai", "cryptography_security","datastructures_algorithms", "os", "hci", "general"]
 
   """ 
   OPTIONS:
     ics-chatbot-ai
-    ics-chatbot-algorithms
     ics-chatbot-security
-    ics-chatbot-computer-vision
+    ics-chatbot-algorithms
+    ics-chatbot-os
+    ics-chatbot-hci
     ics-chatbot-general
   """
-  index_options = ["ics-chatbot-ai", "ics-chatbot-algorithms", "ics-chatbot-security", "ics-chatbot-computer-vision", "ics-chatbot-general"]
+  index_options = ["ics-chatbot-ai", "ics-chatbot-security", "ics-chatbot-algorithms", "ics-chatbot-os", "ics-chatbot-hci", "ics-chatbot-general"]
 
   index = index_options.index(index_name)
   data_path = f"data/{path_options[index]}/{filename}"

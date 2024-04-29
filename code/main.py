@@ -9,17 +9,17 @@ from app.templates.system_prompts import SystemPrompts
 async def init_messages():
   actions = [
     cl.Action(name="Artificial Intelligence", label="Artificial Intelligence", value="ics-chatbot-ai", description="Ask questions related to AI"),
-    cl.Action(name="Data Structures and Algorithms", label="Data Structures and Algorithms", value="ics-chatbot-algorithms", description="Ask questions related to CS algorithms"),
+
     cl.Action(name="Cryptography and Security", label="Cryptography and Security", value="ics-chatbot-security", description="Ask questions related to cryptography and security"),
 
-    cl.Action(name="Operating Systems", label="Computer Vision and Pattern Recognition (Under construction)", value="ics-chatbot-computer-vision", description="Ask questions related to computer vision"),
+    cl.Action(name="Data Structures and Algorithms", label="Data Structures and Algorithms", value="ics-chatbot-algorithms", description="Ask questions related to CS algorithms"),
 
-    cl.Action(name="Human-Computer Interaction", label="Computer Vision and Pattern Recognition (Under construction)", value="ics-chatbot-computer-vision", description="Ask questions related to computer vision"),
+    cl.Action(name="Operating Systems", label="Operating Systems", value="ics-chatbot-os", description="Ask questions related to operating systems"),
 
-    cl.Action(name="General Questions", label="General Questions", value="ics-chatbot-general", description="Ask general questions about anything about the research papers. This might take longer to answer."),
+    cl.Action(name="Human-Computer Interaction", label="Human-Computer Interaction", value="ics-chatbot-hci", description="Ask questions related to human-computer interaction (HCI)"),
+
+    cl.Action(name="General Questions", label="General Questions", value="ics-chatbot-general", description="Ask general questions about anything about the research papers. The answers here might take longer and might not be as accurate."),
   ]
-
-  #todo: MultiRetrievalQAChain for the general questions
 
   WELCOME_MSGS = [
     "Greetings from the Official ICS Research Chatbot. I am IskolarBot! What fascinating topic are you keen to delve into today? If this is your first time here, be sure to check out the README tab for important information!",
@@ -67,6 +67,11 @@ async def on_chat_start():
   system_prompt = SystemPrompts.initial_system_prompt()
   chat_history.append({"role": "system", "content": system_prompt })
   cl.user_session.set("chat_history", chat_history)
+
+  #todo: MultiRetrievalQAChain for the general questions
+  # if index_name == "ics-chatbot-general":
+  #   await cl.Message(content=f"Completed setting up data. You may now ask your general questions!", author="IskolarBot").send()
+  #   return
   
   # Setting up the tools for the function call
   tools = setup_tools()

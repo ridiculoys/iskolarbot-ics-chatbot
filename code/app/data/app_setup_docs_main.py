@@ -18,12 +18,13 @@ use_serverless=os.environ["USE_SERVERLESS"]
 """ 
 OPTIONS:
   ai
-  datastructures_algorithms
   cryptography_security
-  computer_vision
+  datastructures_algorithms
+  os
+  hci
   general
 """
-path_options=["ai", "datastructures_algorithms", "cryptography_security", "computer_vision", "general"]
+path_options=["ai", "cryptography_security","datastructures_algorithms", "os", "hci", "general"]
 data_path = path_options[0]
 
 # if using within the data folder
@@ -33,26 +34,36 @@ data_path = "."
 """ 
 OPTIONS:
   ics-chatbot-ai
-  ics-chatbot-algorithms
   ics-chatbot-security
-  ics-chatbot-computer-vision
+  ics-chatbot-algorithms
+  ics-chatbot-os
+  ics-chatbot-hci
   ics-chatbot-general
 """
-index_options = ["ics-chatbot-ai", "ics-chatbot-algorithms", "ics-chatbot-security", "ics-chatbot-computer-vision", "ics-chatbot-general"]
+index_options = ["ics-chatbot-ai", "ics-chatbot-security", "ics-chatbot-algorithms", "ics-chatbot-os", "ics-chatbot-hci", "ics-chatbot-general"]
 index_name=index_options[0]
 
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai.embeddings import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
+from app.helpers.references import get_references
 
 def setup_documents(data_path, index_name):
   print(f"Loading directory for {index_name}...")
   pdf_loader = PyPDFDirectoryLoader(path=data_path, glob="**/*.pdf", recursive=True)
   documents = pdf_loader.load()
 
+  references = {}
   for document in documents:
-    document.metadata['file_name'] = document.metadata['source']
+    source = document.metadata['source']
+    if source in references:
+      document.metadata['file_name'] = source
+      document.metadata['reference'] = references[source]
+      continue
+    references[source] = get_references(index_name, source)
+    print("Reference:", references[source])
+
   print('document', documents[0])
   
   print("Directory loaded...")
