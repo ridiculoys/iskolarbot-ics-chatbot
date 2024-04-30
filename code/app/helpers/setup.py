@@ -58,7 +58,7 @@ def setup_search_content_chain(pinecone_vectorstore, template=SearchPrompts.answ
   return chain
 
 
-from app.helpers.references import get_references
+from app.helpers.formatters import get_references
 # todo: if people want just related papers, i think only need chain for the formatting, the sim_search can handle the getting of the papers
 # new todo: since we have the reference in the metadata, only get the sim search and get metadata -- no need for chain
 def setup_search_papers_chain(vectorstore, query, topic):

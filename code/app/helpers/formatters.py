@@ -4,7 +4,7 @@ from langchain_openai.chat_models import ChatOpenAI
 
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
-from app.templates.reference_prompts import ReferencePrompts
+from app.templates.formatter_prompts import FormatterPrompts
     
 def get_references(topic, pdf_name):
   topics = ["ics-chatbot-ai", "ics-chatbot-algorithms", "ics-chatbot-security", "ics-chatbot-computer-vision", "ics-chatbot-general"]
@@ -24,9 +24,20 @@ def get_references(topic, pdf_name):
 
   model = ChatOpenAI(model='gpt-3.5-turbo-0125', temperature=0)
 
-  template = ReferencePrompts.ieee_ref_prompt()
+  template = FormatterPrompts.ieee_ref_prompt()
   chain = create_stuff_documents_chain(model, template)
-  response = chain.invoke({"context": pages})
+  response = chain.ainvoke({"context": pages})
   
   print("in ref file:", response)
   return response
+
+
+from langchain_core.output_parsers import StrOutputParser
+def get_semantic_keywords(query):
+  template = FormatterPrompts.semantic_keyword_prompt()
+  model = ChatOpenAI(model='gpt-3.5-turbo-0125', temperature=0)
+  output_parser = StrOutputParser()
+
+  chain = template | model | output_parser
+
+  chain.ainvoke({"question": query})

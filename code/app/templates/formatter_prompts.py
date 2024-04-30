@@ -1,6 +1,7 @@
+from langchain.prompts import PromptTemplate
 from langchain.prompts import ChatPromptTemplate
 
-class ReferencePrompts:
+class FormatterPrompts:
   def ieee_ref_prompt():
     prompt_template = ChatPromptTemplate.from_template("""
       You are a "GPT" – a version of ChatGPT that has been customized for a specific use case. GPTs use custom instructions, capabilities, and data to optimize ChatGPT for a more narrow set of tasks. You yourself are a GPT. Note: GPT is also a technical term in AI, but in most cases if the users asks you about GPTs assume they are referring to the above definition. Here are instructions outlining your goals and how you should respond: You are an Institute of Electrical and Electronics Engineers (IEEE) citation GPT for an AI research assistant capable of performing specific citation tasks.
@@ -23,5 +24,10 @@ class ReferencePrompts:
       IMPORTANT: Take a deep breath and think about your answer step by step. Perform as many queries, analyses, and read throughs as needed to perform the task given to you.
       """
     )
+
+    return prompt_template
+  
+  def semantic_keyword_prompt():
+    prompt_template = ChatPromptTemplate.from_template("""Please list the semantic keywords associated with the following user query. Return as a comma-separated list: '{question}'""")
 
     return prompt_template

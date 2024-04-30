@@ -47,7 +47,7 @@ from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai.embeddings import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
-from app.helpers.references import get_references
+from app.helpers.formatters import get_references
 
 def setup_documents(data_path, index_name):
   print(f"Loading directory for {index_name}...")
