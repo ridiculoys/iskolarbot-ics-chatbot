@@ -5,6 +5,8 @@ This script sets up the documents for the AI chatbot. It uses the PyPDFDirectory
 
 NOTE: COPY THIS FILE INTO THE ROOT DIRECTORY OF THE DATASET FOLDER
 This is because when upserting the document into the Pinecone index, the source of the document is used as the metadata. The source is the file path, which would include the entire directory of the dataset if this file is outside the folder. If the file path is not correct, the metadata will not be accurate in returning the references.
+
+Run: `python
 """
 
 import os
@@ -21,14 +23,22 @@ from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai.embeddings import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
+from get_references import get_references
 
 def setup_documents(data_path, index_name):
   print(f"Loading directory for {index_name}...")
   pdf_loader = PyPDFDirectoryLoader(path=data_path, glob="**/*.pdf", recursive=True)
   documents = pdf_loader.load()
 
+  references = {}
   for document in documents:
-    document.metadata['file_name'] = document.metadata['source']
+    source = document.metadata['source']
+    document.metadata['file_name'] = source
+    if source not in references:
+      references[source] = get_references(index_name, source)
+      print("Reference:", references[source])
+    document.metadata['reference'] = references[source]
+
   print('document', documents[0])
   
   print("Directory loaded...")
@@ -38,7 +48,7 @@ def setup_documents(data_path, index_name):
   # Initialize the RecursiveCharacterTextSplitter for splitting text
   # predefined length -- how many chars do we want per chunk
   # overlap - character 0 - 1000, first document. Then, there's an overlap of +-150 characters between doc 1 and doc 2
-  text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=50)
+  text_splitter = RecursiveCharacterTextSplitter(separators=["\n\n", "\n"], chunk_size=1000, chunk_overlap=50)
   chunked_documents = text_splitter.split_documents(documents)
   print("Chunk", chunked_documents[0])
 

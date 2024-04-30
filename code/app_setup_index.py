@@ -2,6 +2,8 @@
 SETTING UP PINECONE INDEX
 
 This script sets up a Pinecone index for the AI chatbot. It uses the Pinecone Python client to create an index and configure it with the necessary settings. The script deletes existing indices and also checks the status of the index to ensure it is ready for use.
+
+Run: `python app_setup_index.py`
 """
 
 
@@ -64,5 +66,5 @@ OPTIONS:
 """
 
 options = ["ics-chatbot-ai", "ics-chatbot-security", "ics-chatbot-algorithms", "ics-chatbot-os", "ics-chatbot-hci", "ics-chatbot-general"]
-index_name=options[4]
+index_name=options[0]
 setup_index(index_name)
