@@ -62,6 +62,9 @@ from app.helpers.formatters import get_references
 # todo: if people want just related papers, i think only need chain for the formatting, the sim_search can handle the getting of the papers
 # new todo: since we have the reference in the metadata, only get the sim search and get metadata -- no need for chain
 def setup_search_papers_chain(vectorstore, query, topic):
+  #todo: vectorstore similarity, get metadata
+  #prereq: re-upsert documents with proper references
+
   # results = vectorstore.similarity_search(query, k=50)
   results = vectorstore.similarity_search_with_score(query, k=10)
   
@@ -113,7 +116,7 @@ async def setup_summary_chain(index_name, filename):
   index_options = ["ics-chatbot-ai", "ics-chatbot-security", "ics-chatbot-algorithms", "ics-chatbot-os", "ics-chatbot-hci", "ics-chatbot-general"]
 
   index = index_options.index(index_name)
-  data_path = f"data/{path_options[index]}/{filename}"
+  data_path = f"app/data/{path_options[index]}/{filename}"
   # data_path = f"{filename}"
   print("data_path", data_path)
   llm = ChatOpenAI(model=GPT_MODEL, temperature=0)
@@ -160,9 +163,13 @@ def chat_completion_request(messages, tools=None, tool_choice=None, model=GPT_MO
 # Utilities
 
 # OpenAI Function Calling
+from app.templates.formatter_prompts import FormatterPrompts
 def setup_tools():
   # [ICEBOX] more tools - tech stack recommender, 
   #todo: refine descriptions -- summarizer needs to parse author properly
+
+  #todo: add semantic keywords instead of topic
+
   tools = [
     {
       "type": "function",
@@ -172,20 +179,20 @@ def setup_tools():
         "parameters": {
           "type": "object",
           "properties": {
-            "type_of_question": {
+            "question_type": {
               "type": "string",
               "description": "The nature of the user's inquiry if it is asking for clarification, context, definition, explanation, follow-up, comparison, results, or any other type of inquiry."
             },
-            "paper_topic": {
+            "question_subject": {
               "type": "string",
               "description": "The specific topic or subject within the research paper or journal that the user is inquiring about."
             },
-            "query_details": {
+            "semantic_keywords": {
               "type": "string",
-              "description": "Additional details or specific aspects of the topic the user wants to know more about."
+              "description": "The semantic keywords associated with the user query. Return as a comma-separated list."
             }
           },
-          "required": ["type_of_question", "paper_topic"]
+          "required": ["question_type", "question_subject", "semantic_keywords"]
         }
       }
     },
@@ -212,9 +219,13 @@ def setup_tools():
             "focus_on": {
               "type": "string",
               "description": "A specific aspect or section of the paper to focus on for the summary. Options include 'introduction', 'related literature', 'methodology', 'results', 'conclusion', or any other section of the paper."
+            },
+            "semantic_keywords": {
+              "type": "string",
+              "description": "The semantic keywords associated with the user query. Return as a comma-separated list."
             }
           },
-          "required": ["paper_title"],
+          "required": ["paper_title", "semantic_keywords"],
         }
       }
     },
@@ -230,12 +241,12 @@ def setup_tools():
               "type": "string",
               "description": "The specific topic for which related literature is sought. This could be a research question, a concept, a field of study, or any other topic of interest."
             },
-            "limit": {
-              "type": "integer",
-              "description": "Optional. The maximum number of related literature items to return. Default is 3 if not specified."
+            "semantic_keywords": {
+              "type": "string",
+              "description": "The semantic keywords associated with the user query. Return as a comma-separated list."
             }
           },
-          "required": ["topic"],
+          "required": ["topic", "semantic_keywords"],
         }
       }
     }

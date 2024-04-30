@@ -21,6 +21,7 @@ async def init_messages():
     cl.Action(name="General Questions", label="General Questions", value="ics-chatbot-general", description="Ask general questions about anything about the research papers. The answers here might take longer and might not be as accurate."),
   ]
 
+  # variety of pregenerated welcome messages
   WELCOME_MSGS = [
     "Greetings from the Official ICS Research Chatbot. I am IskolarBot! What fascinating topic are you keen to delve into today? If this is your first time here, be sure to check out the README tab for important information!",
     "Hello there! Welcome aboard the Official ICS Research Chatbot. I'm IskolarBot. Ready to embark on an intellectual journey? What piques your interest today? Don't forget to read the README tab if you're new to this app!",
@@ -101,7 +102,6 @@ async def on_message(msg: cl.Message):
   # Append user message to chat history
   chat_history.append({"role": "user", "content": msg.content})
 
-  # Double check if the user response is answerable by the vectorstore
   response = ""
 
   chat_response = chat_completion_request(

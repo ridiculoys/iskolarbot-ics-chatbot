@@ -3,7 +3,7 @@ import chainlit as cl
 #todo: include tables and images as part of the content: https://github.com/sudarshan-koirala/youtube-stuffs/blob/main/langchain/LangChain_Multi_modal_RAG.ipynb
 #todo: 
 from app.helpers.setup import setup_summary_chain, setup_search_content_chain
-from app.templates.summary_prompts import SummaryPrompts
+# from app.templates.summary_prompts import SummaryPrompts
 async def summarize_paper(vectorstore, args, user_query, topic, index_name):
   try:
     if "focus_on" in args or "author" in args or "summary_length" in args:
@@ -14,7 +14,7 @@ async def summarize_paper(vectorstore, args, user_query, topic, index_name):
       to_search = f"{args['paper_title']} {focus_on}"
       results = vectorstore.similarity_search(to_search, k=15)
 
-      summary_template = SummaryPrompts.summary_prompt()
+      # summary_template = SummaryPrompts.summary_prompt()
 
       context = ""
       for idx, doc in enumerate(results):
@@ -34,7 +34,7 @@ async def summarize_paper(vectorstore, args, user_query, topic, index_name):
         {author}
       """
       print(f"user: {user_query}\n===\ntemplate: {question}")
-      chain = setup_search_content_chain(vectorstore, template=summary_template)
+      chain = cl.user_session.get("summary_chain")
       results = await chain.ainvoke({"topic": topic, "question": question, "summaries" : context})
 
       return results["answer"]
@@ -56,10 +56,10 @@ async def summarize_paper(vectorstore, args, user_query, topic, index_name):
 from app.helpers.setup import setup_search_papers_chain
 def get_related_literature(vectorstore, args, user_query, index_name, chat_history):
   try:
-    #todo: vectorstore similarity, get metadata
-    #prereq: re-upsert documents with proper references
-
     # args has topic, limit
+    topic = args['topic']
+    semantic_keywords = args['semantic_keywords'] # todo: might be the only one we need
+
     response = setup_search_papers_chain(vectorstore=vectorstore, query=user_query, topic=index_name)
   except Exception as e:
     response = f"query failed with error: {e}"
@@ -90,13 +90,14 @@ async def answer_user_query(vectorstore, args, user_query, topic, chat_history):
     # print("chat history", chat_history)
     processed_chat_history = chat_history[1:-1] if len(chat_history) > 3 else ""
 
-    print("processed_chat_history", processed_chat_history) 
-    # inputs = {"topic":topic, "question":user_query, "summaries": context, "history": processed_chat_history}
-    # chain_response = await chain.ainvoke(inputs)
-    # response = chain_response["answer"]
+    question_type = args['question_type']
+    question_subject = args['question_subject']
+    semantic_keywords = args['semantic_keywords']
 
-    # args has type_of_question, paper_topic, query_details
-    response = "Query chain here"
+    print("processed_chat_history", processed_chat_history) 
+    inputs = {"topic":topic, "question":user_query, "summaries": context, "history": processed_chat_history}
+    chain_response = await chain.ainvoke(inputs)
+    response = chain_response["answer"]
   except Exception as e:
     response = f"query failed with error: {e}"
   return response

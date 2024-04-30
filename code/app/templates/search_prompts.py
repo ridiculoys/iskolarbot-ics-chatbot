@@ -63,6 +63,11 @@ class SearchPrompts:
     # todo: reference the papers properly
     # todo: Add the prompt for the chat history context only getting the most recent
     # todo: add a prompt saying to paraphrase the results from the context and by using the correct ieee references, properly place them on the paragraphs using [1]
+
+    # **Use the following information to further understand the user question:**
+    #   Type of Question: {question_type}
+    #   Subject of Question: {question_subject}
+    #   Semantic Keywords: {semantic_keywords}
     prompt_template = ChatPromptTemplate.from_template("""
       You are an expert research paper assistant who helps researchers in simplifying and understanding the content of relevant research papers related to the topic: {topic}.
       
