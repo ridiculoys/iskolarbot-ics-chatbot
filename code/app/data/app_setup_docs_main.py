@@ -47,7 +47,7 @@ from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai.embeddings import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
-from app.helpers.formatters import get_references
+from get_references import get_references
 
 def setup_documents(data_path, index_name):
   print(f"Loading directory for {index_name}...")
@@ -57,12 +57,11 @@ def setup_documents(data_path, index_name):
   references = {}
   for document in documents:
     source = document.metadata['source']
-    if source in references:
-      document.metadata['file_name'] = source
-      document.metadata['reference'] = references[source]
-      continue
-    references[source] = get_references(index_name, source)
-    print("Reference:", references[source])
+    document.metadata['file_name'] = source
+    if source not in references:
+      references[source] = get_references(index_name, source)
+      print("Reference:", references[source])
+    document.metadata['reference'] = references[source]
 
   print('document', documents[0])
   
