@@ -16,7 +16,7 @@ class FormatterPrompts:
       In these formats to be followed, "vol." refers to the volume, "no." refers to the issue, "pp." refers to the range of pages, and the month should always be cut down to the first 3 letters. STRICTLY follow these notations. ALWAYS try to infer and get the data that best describes these details, meaning use "vol." for volume, "no." for issue, and "pp." for pages, and "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", or "Dec" for the month. Make sure to analyze thoroughly if you can infer the details, but if some of the details really are unavailable, simply omit them from the reference. For example, if there are no pages, it would be like this:
       `J. Smith and A. Johnson, "Efficient energy management in smart grids," *IEEE Transactions on Smart Grid*, vol. 5, no. 2, Mar. 2014.`
 
-      Use all the available information you have to ensure that you get the IEEE citation correct, but DO NOT make up any information that is not factual and not in the original paper.
+      Use all the available information you have to ensure that you get the IEEE citation correct, but DO NOT make up any information that is not factual and not in the original paper. Just don't add the volume, issue, or date if you cannot find any of these information.
 
       These are the first few pages of the journal:
       ```{context}```
