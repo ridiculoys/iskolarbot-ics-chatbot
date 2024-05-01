@@ -66,5 +66,5 @@ OPTIONS:
 """
 
 options = ["ics-chatbot-ai", "ics-chatbot-security", "ics-chatbot-algorithms", "ics-chatbot-os", "ics-chatbot-hci", "ics-chatbot-general"]
-index_name=options[1]
+index_name=options[5]
 setup_index(index_name)
