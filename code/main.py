@@ -126,8 +126,8 @@ async def on_message(msg: cl.Message):
     chat_history.append({"role":  assistant_message.role, "content": assistant_message.content})
 
   system_msg = chat_history[0]
-  last_four_msgs = chat_history[-4:]
+  last_msgs = chat_history[-10:]
   # Combine the first item with the last 4 items
-  chat_history = [system_msg] + last_four_msgs
+  chat_history = [system_msg] + last_msgs
   cl.user_session.set("chat_history", chat_history)
   await cl.Message(content=response, author="IskolarBot").send()
