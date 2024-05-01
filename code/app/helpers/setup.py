@@ -58,35 +58,28 @@ def setup_search_content_chain(pinecone_vectorstore, template=SearchPrompts.answ
   return chain
 
 
-from app.helpers.formatters import get_references
-# todo: if people want just related papers, i think only need chain for the formatting, the sim_search can handle the getting of the papers
-# new todo: since we have the reference in the metadata, only get the sim search and get metadata -- no need for chain
 def setup_search_papers_chain(vectorstore, query, topic):
-  #todo: vectorstore similarity, get metadata
-  #prereq: re-upsert documents with proper references
-
-  # results = vectorstore.similarity_search(query, k=50)
   results = vectorstore.similarity_search_with_score(query, k=10)
   
-  for idx,result in enumerate(results):
-    print(idx, result)
-  metadata = [result[0].metadata for result in results]
-  print("metadaa", metadata)
+  filenames = list(set([result[0].metadata['file_name'] for result in results]))
+  added = []
 
-  # todo: for each document answer, get metadata to use for references
-  # filenames = list(set([result.metadata['source'].replace("data\\ai\\", "").rstrip('.pdf') for result in results]))
-  # print("filenames", filenames)
+  references = []
+  for result in results:
+    if result[0].metadata['file_name'] in filenames and result[0].metadata['file_name'] not in added:
+      references.append(result[0].metadata)
+      added.append(result[0].metadata['file_name'])
 
-  filenames = list(set([result[0].metadata['file_name'].rstrip('.pdf') for result in results]))
+  response = ""
+  for idx, reference in enumerate(references):
+    if idx == 0:
+      response += f"Here is what I found:\n\n"
+    response += f"[{idx+1}] {reference['reference']}\n"
 
-  # put this in setup docs chain
-  # response = f"Sure! Here are some related literature I found for **{query}**.\n\n"
-  # for idx, filename in enumerate(filenames):
-  #   ref = get_references(topic, filename)
-  #   response += f"**[{idx+1}]** {ref}\n"
+  if not response:
+    response = "Unfortunately, my dataset is limited and I did not find any related literature to your query. Would you like to ask about another topic?"
 
-  # return response
-  return "\n".join(filenames)
+  return response
 
 
 from langchain.chains.summarize import load_summarize_chain
