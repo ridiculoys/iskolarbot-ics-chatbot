@@ -54,13 +54,17 @@ async def summarize_paper(vectorstore, args, user_query, topic, index_name):
   return results
 
 from app.helpers.setup import setup_search_papers_chain
-def get_related_literature(vectorstore, args, user_query, index_name, chat_history):
+def get_related_literature(vectorstore, args, index_name):
   try:
     # args has topic, limit
     topic = args['topic']
     semantic_keywords = args['semantic_keywords'] # todo: might be the only one we need
+    query=f"""
+    topic: {topic}
+    keywords: {semantic_keywords}
+    """
 
-    response = setup_search_papers_chain(vectorstore=vectorstore, query=user_query, topic=index_name)
+    response = setup_search_papers_chain(vectorstore=vectorstore, query=query, topic=index_name)
   except Exception as e:
     response = f"query failed with error: {e}"
   return response
@@ -111,7 +115,7 @@ async def execute_function_call(vectorstore, message, user_query, topic, index_n
     elif message.tool_calls[0].function.name == "get_related_literature":
       args = json.loads(message.tool_calls[0].function.arguments)
       print("args", args)
-      results = get_related_literature(vectorstore, args, user_query, index_name, chat_history)
+      results = get_related_literature(vectorstore, args, index_name)
     elif message.tool_calls[0].function.name == "get_answer": 
       args = json.loads(message.tool_calls[0].function.arguments)
       print("args", args)
