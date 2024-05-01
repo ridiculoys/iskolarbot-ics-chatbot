@@ -33,7 +33,7 @@ def setup_documents(data_path, index_name):
     source = document.metadata['source']
     document.metadata['file_name'] = source
     if source not in references:
-      references[source] = get_references(index_name, source)
+      references[source] = get_references(source)
       print("Reference:", references[source])
     document.metadata['reference'] = references[source]
   print('document', documents[0])

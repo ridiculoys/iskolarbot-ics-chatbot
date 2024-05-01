@@ -7,8 +7,15 @@ NOTE: COPY THIS FILE INTO THE ROOT DIRECTORY OF THE DATASET FOLDER
 This is because when upserting the document into the Pinecone index, the source of the document is used as the metadata. The source is the file path, which would include the entire directory of the dataset if this file is outside the folder. If the file path is not correct, the metadata will not be accurate in returning the references.
 """
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+openai_api_key=os.environ["OPENAI_API_KEY"]
+pinecone_api_key=os.environ["PINECONE_API_KEY"]
+use_serverless=os.environ["USE_SERVERLESS"]
+
 data_path = "."
-index_name="ics-chatbot-hci"
+index_name = "ics-chatbot-os"
 
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -26,7 +33,7 @@ def setup_documents(data_path, index_name):
     source = document.metadata['source']
     document.metadata['file_name'] = source
     if source not in references:
-      references[source] = get_references(index_name, source)
+      references[source] = get_references(source)
       print("Reference:", references[source])
     document.metadata['reference'] = references[source]
 

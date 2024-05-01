@@ -6,11 +6,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 
 from formatter_prompts import FormatterPrompts
     
-def get_references(topic, pdf_name):
-  topics = ["ics-chatbot-ai", "ics-chatbot-algorithms", "ics-chatbot-security", "ics-chatbot-computer-vision", "ics-chatbot-general"]
-  data_path = ["ai", "datastructures_algorithms", "cryptography_security", "computer_vision", "general"]
-  topic_index = topics.index(topic)
-
+def get_references():
   # Load the PDF
   loader = PyPDFLoader(f"{pdf_name}")
   document = loader.load_and_split()
