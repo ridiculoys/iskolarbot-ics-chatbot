@@ -58,7 +58,7 @@ def setup_search_content_chain(pinecone_vectorstore, template=SearchPrompts.answ
   return chain
 
 
-def setup_search_papers_chain(vectorstore, query, topic):
+def setup_search_papers_chain(vectorstore, query):
   results = vectorstore.similarity_search_with_score(query, k=10)
   
   filenames = list(set([result[0].metadata['file_name'] for result in results]))
@@ -72,12 +72,7 @@ def setup_search_papers_chain(vectorstore, query, topic):
 
   response = ""
   for idx, reference in enumerate(references):
-    if idx == 0:
-      response += f"Here is what I found:\n\n"
     response += f"[{idx+1}] {reference['reference']}\n"
-
-  if not response:
-    response = "Unfortunately, my dataset is limited and I did not find any related literature to your query. Would you like to ask about another topic?"
 
   return response
 
@@ -122,7 +117,7 @@ async def setup_summary_chain(index_name, filename):
   
   print(f"Loading {len(docs)} documents")
   
-  chain = load_summarize_chain(llm, chain_type="map_reduce")
+  chain = load_summarize_chain(llm, chain_type="map_reduce",  return_intermediate_steps=True,)
 
   # arun is deprecated, use ainvoke
   # summary = await chain.arun(docs)   # better response = docs
@@ -205,13 +200,9 @@ def setup_tools():
               "type": "string",
               "description": "The author(s) of the journal or research paper to be summarized."
             },
-            "summary_length": {
-              "type": "integer",
-              "description": "The desired length of the summary in words. Do not assume length if not specified."
-            },
             "focus_on": {
               "type": "string",
-              "description": "A specific aspect or section of the paper to focus on for the summary. Options include 'introduction', 'related literature', 'methodology', 'results', 'conclusion', or any other section of the paper."
+              "description": "A specific aspect or section of the paper that the user asks for the summary. Options include 'introduction', 'related literature', 'methodology', 'results', 'conclusion', or any other section of the paper."
             },
             "semantic_keywords": {
               "type": "string",
