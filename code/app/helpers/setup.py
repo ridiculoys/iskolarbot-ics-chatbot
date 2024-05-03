@@ -177,7 +177,7 @@ def setup_tools():
             },
             "semantic_keywords": {
               "type": "string",
-              "description": "The semantic keywords associated with the user query. Return as a comma-separated list."
+              "description": "The semantic keywords associated with the user query. Do not make assumptions from the query. Return as a comma-separated list."
             }
           },
           "required": ["question_type", "question_subject", "semantic_keywords"]
@@ -206,7 +206,7 @@ def setup_tools():
             },
             "semantic_keywords": {
               "type": "string",
-              "description": "The semantic keywords associated with the user query. Return as a comma-separated list."
+              "description": "The semantic keywords associated with the user query. Do not make assumptions from the query. Return as a comma-separated list."
             }
           },
           "required": ["paper_title", "semantic_keywords"],
@@ -227,7 +227,7 @@ def setup_tools():
             },
             "semantic_keywords": {
               "type": "string",
-              "description": "The semantic keywords associated with the user query. Return as a comma-separated list."
+              "description": "The semantic keywords associated with the user query. Do not make assumptions from the query. Return as a comma-separated list."
             }
           },
           "required": ["topic", "semantic_keywords"],
