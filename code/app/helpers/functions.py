@@ -76,22 +76,36 @@ async def answer_user_query(vectorstore, args, user_query, topic, chat_history):
   try:
     chain = cl.user_session.get("query_chain")
 
-    documents = vectorstore.similarity_search(user_query, k=10)
+    results = vectorstore.similarity_search(user_query, k=10)
 
-    context = ""
-    for idx, doc in enumerate(documents):
-      content = doc.page_content
-      reference = doc.metadata['reference']
+    #todo: for each filename, add the reference and remove the summaries
+    # context = ""
+    # for idx, doc in enumerate(documents):
+    #   content = doc.page_content
+    #   reference = doc.metadata['reference']
+    #   reference = doc.metadata['file_name']
 
-      context += f"""
-        Document #{idx+1}
-        Content:
-          ```{content}```
+    #   context += f"""
+    #     Document #{idx+1}
+    #     Content:
+    #       ```{content}```
 
-        Exact Reference: `{reference}`
-        ==
-      """
+    #     Exact Reference: `{reference}`
+    #     ==
+    #   """
 
+    filenames = list(set([result.metadata['file_name'] for result in results]))
+    added = []
+    print("got filenames", filenames)
+
+    references = []
+    for result in results:
+      if result.metadata['file_name'] in filenames and result.metadata['file_name'] not in added:
+        references.append(result.metadata)
+        added.append(result.metadata['file_name'])
+    references = [reference['reference'] for reference in references]
+    
+    print("references", references)
     # print("context", context)
     # print("chat history", chat_history)
     processed_chat_history = chat_history[1:-1] if len(chat_history) > 3 else ""
@@ -100,8 +114,8 @@ async def answer_user_query(vectorstore, args, user_query, topic, chat_history):
     question_subject = args['question_subject']
     semantic_keywords = args['semantic_keywords']
 
-    print("processed_chat_history", processed_chat_history) 
-    inputs = {"topic":topic, "question":user_query, "summaries": context, "history": processed_chat_history, "question_type": question_type, "question_subject": question_subject, "semantic_keywords": semantic_keywords}
+    # print("processed_chat_history", processed_chat_history) 
+    inputs = {"topic":topic, "references": "\n".join(references), "question": user_query, "conversation_history": processed_chat_history, "question_type": question_type, "question_subject": question_subject, "semantic_keywords": semantic_keywords}
     chain_response = await chain.ainvoke(inputs)
     response = chain_response["answer"]
   except Exception as e:
@@ -117,7 +131,7 @@ async def execute_function_call(vectorstore, message, user_query, topic, index_n
     elif message.tool_calls[0].function.name == "get_related_literature":
       args = json.loads(message.tool_calls[0].function.arguments)
       print("args", args)
-      results = get_related_literature(vectorstore, args, index_name)
+      results = get_related_literature(vectorstore, args)
     elif message.tool_calls[0].function.name == "get_answer": 
       args = json.loads(message.tool_calls[0].function.arguments)
       print("args", args)
