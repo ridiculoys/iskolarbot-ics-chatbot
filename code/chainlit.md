@@ -46,7 +46,7 @@ The best way to assess credibility is by accessing the paper directly. Additiona
 
 ## Useful Links 🔗
 
-<!-- - **Documentation:** Get started with our comprehensive [Chatbot Documentation](https://docs.chainlit.io) 📚 -->
+- **Documentation:** Get started with our comprehensive [Chatbot Documentation](https://docs.chainlit.io) 📚
 - **Feedback and Concerns:** Answer this [Feedback Form](https://forms.gle/1KisXppWJJUQKKS68) to help improve the chatbot! 🤖
 - **Community:** Join our friendly [Messenger Group Chat](https://facebook.com) to ask more questions, share your insights, and connect with the developer! 💬
 
