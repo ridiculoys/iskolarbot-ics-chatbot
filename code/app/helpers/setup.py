@@ -200,9 +200,9 @@ def setup_tools():
               "type": "string",
               "description": "The author(s) of the journal or research paper to be summarized."
             },
-            "focus_on": {
+            "subject": {
               "type": "string",
-              "description": "A specific aspect or section of the paper that the user asks for the summary. Options include 'introduction', 'related literature', 'methodology', 'results', 'conclusion', or any other section of the paper."
+              "description": "A specific subject, aspect, topic, or section of the paper that the user asks for. It could be about a specific part of the paper such as the introduction, related literature, methodology, results, conclusion, or it could be a topic they want to highlight."
             },
             "semantic_keywords": {
               "type": "string",

@@ -6,12 +6,12 @@ from app.helpers.setup import setup_summary_chain
 # from app.templates.summary_prompts import SummaryPrompts
 async def summarize_paper(vectorstore, args, user_query, topic, index_name):
   try:
-    if "focus_on" in args or "author" in args:
-      focus_on = f"- specifically about the {args['focus_on']}" if "focus_on" in args else ""
+    if "subject" in args or "author" in args:
+      subject = f"- specifically about the {args['subject']}" if "subject" in args else ""
       author = f"The paper authors are {args['paper_authors']}" if "author" in args else ""
 
       to_search = f"""
-        {args['paper_title']} {focus_on}
+        {args['paper_title']} {subject}
         Keywords: {args['semantic_keywords']}
       """
 
@@ -28,7 +28,7 @@ async def summarize_paper(vectorstore, args, user_query, topic, index_name):
         """
         
       question = f"""
-        Summarize the paper entitled "{args['paper_title']}" {focus_on}
+        Summarize the paper entitled "{args['paper_title']}" {subject}
         {author}
       """
 
