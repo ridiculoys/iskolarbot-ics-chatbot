@@ -28,5 +28,4 @@ def get_references(topic, pdf_name):
   chain = create_stuff_documents_chain(model, template)
   response = chain.ainvoke({"context": pages})
   
-  print("in ref file:", response)
   return response

@@ -32,7 +32,7 @@ async def summarize_paper(vectorstore, args, user_query, topic, index_name):
         {author}
       """
 
-      print(f"user: {user_query}\n===\ntemplate: {question}")
+      # print(f"user: {user_query}\n===\ntemplate: {question}")
       chain = cl.user_session.get("summary_chain")
       results = await chain.ainvoke({"topic": topic, "question": question, "summaries": context})
 
@@ -96,7 +96,6 @@ async def answer_user_query(vectorstore, args, user_query, topic, chat_history):
 
     filenames = list(set([result.metadata['file_name'] for result in results]))
     added = []
-    print("got filenames", filenames)
 
     references = []
     for result in results:
@@ -105,7 +104,7 @@ async def answer_user_query(vectorstore, args, user_query, topic, chat_history):
         added.append(result.metadata['file_name'])
     references = [reference['reference'] for reference in references]
     
-    print("references", references)
+    # print("references", references)
     # print("context", context)
     # print("chat history", chat_history)
     processed_chat_history = chat_history[1:-1] if len(chat_history) > 3 else ""
@@ -126,15 +125,15 @@ import json
 async def execute_function_call(vectorstore, message, user_query, topic, index_name, chat_history):
     if message.tool_calls[0].function.name == "summarize_paper":
       args = json.loads(message.tool_calls[0].function.arguments)
-      print("args", args)
+      # print("args", args)
       results = await summarize_paper(vectorstore, args, user_query, topic, index_name)
     elif message.tool_calls[0].function.name == "get_related_literature":
       args = json.loads(message.tool_calls[0].function.arguments)
-      print("args", args)
+      # print("args", args)
       results = get_related_literature(vectorstore, args)
     elif message.tool_calls[0].function.name == "get_answer": 
       args = json.loads(message.tool_calls[0].function.arguments)
-      print("args", args)
+      # print("args", args)
       results = await answer_user_query(vectorstore, args, user_query, topic, chat_history)
     else:
         results = f"Error: function {message.tool_calls[0].function.name} does not exist"

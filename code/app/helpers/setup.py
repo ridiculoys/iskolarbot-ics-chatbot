@@ -106,7 +106,7 @@ async def setup_summary_chain(index_name, filename):
   index = index_options.index(index_name)
   data_path = f"app/data/{path_options[index]}/{filename}"
   # data_path = f"{filename}"
-  print("data_path", data_path)
+  # print("data_path", data_path)
   llm = ChatOpenAI(model=GPT_MODEL, temperature=0)
   
   loader = PyPDFLoader(data_path)
@@ -115,7 +115,7 @@ async def setup_summary_chain(index_name, filename):
   # text_splitter = RecursiveCharacterTextSplitter(separators=["\n\n", "\n"], chunk_size=1000, chunk_overlap=50)
   # chunked_documents = text_splitter.split_documents(docs)
   
-  print(f"Loading {len(docs)} documents")
+  # print(f"Loading {len(docs)} documents")
   
   chain = load_summarize_chain(llm, chain_type="map_reduce",  return_intermediate_steps=True,)
 
