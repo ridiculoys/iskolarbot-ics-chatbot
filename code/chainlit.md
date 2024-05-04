@@ -1,6 +1,6 @@
-# Welcome to the ICS Research Assistant Chatbot! 🤖
+# Welcome to your personal Research Assistant Chatbot! 🤖
 
-Hey there, researcher! 👋 I'm **IskolarBot** and I'm excited to have you on board. I am the ICS Research Assistant Chatbot - a powerful tool designed to help you query research papers from the Institute of Computer Science of the University of the Philippines Los Baños. 
+Hey there, researcher! 👋 I'm **IskolarBot** and I'm excited to have you on board. I am a Research Assistant Chatbot - a powerful tool designed to help you query research papers from my knowledgebase. 
 
 This application is built using Chainlit, Langchain, and OpenAI to showcase the powers of LLMs and Generative AI in education.
 
@@ -29,7 +29,7 @@ To start off, go to the chat tab and choose a topic. Then, ask away! Here are so
 
 ### *What databases or resources do you have access to?*
 
-The dataset for each category contains papers from reputable sources such as arXiv, IEEE Xplore, ScienceDirect, and JSTOR. If you are a UPLB constituent, these are accessible through OpenAthens.
+The dataset for each category contains papers from reputable sources such as arXiv, IEEE Xplore, ScienceDirect, and JSTOR. If you are a UPLB constituent, these are accessible through OpenAthens. You can access the dataset used here: [IskolarBot Dataset Link](https://drive.google.com/drive/folders/1S4g9eHW57xpSZEWCLrKf-jjTN4__swid?usp=sharing)
 
 ### *Does the chatbot offer assistance with writing my research paper?*
 
@@ -46,7 +46,7 @@ The best way to assess credibility is by accessing the paper directly. Additiona
 
 ## Useful Links 🔗
 
-- **Documentation:** Get started with our comprehensive [Chatbot Documentation](https://docs.chainlit.io) 📚
+- **Documentation:** Get started with our comprehensive [Chatbot Documentation](https://iskolarbot.onrender.com/readme) 📚
 - **Feedback and Concerns:** Answer this [Feedback Form](https://forms.gle/1KisXppWJJUQKKS68) to help improve the chatbot! 🤖
 - **Community:** Join our friendly [Messenger Group Chat](https://facebook.com) to ask more questions, share your insights, and connect with the developer! 💬
 
