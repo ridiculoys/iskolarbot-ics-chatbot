@@ -46,13 +46,13 @@ def setup_search_content_chain(pinecone_vectorstore, template=SearchPrompts.answ
       retriever=pinecone_vectorstore.as_retriever(),
       chain_type_kwargs={
           "prompt": template,
-          "verbose": True,
+          # "verbose": True,
           # "memory": ConversationBufferMemory(
           #   memory_key='history',
           #   input_key='question'),
       },
       # memory=memory, #makes it hallucinate a bit
-      verbose=True,
+      # verbose=True,
   )
 
   return chain
