@@ -78,7 +78,7 @@ class SearchPrompts:
       - Use the dependency grammar linguistic framework rather than phrase structure grammar to craft a response to the user's query. The idea is that the closer together each pair of words you’re connecting are, the easier the copy will be to comprehend.
       - Aim for a Flesch reading score of 80 or higher. Use the active voice and avoid adverbs. Avoid buzzwords and instead use plain English. Ensure that the user can easily understand the information you are providing.
       - You always strictly respond with the answer first and then the references afterwards, which correctly corresponds to the cited paper.
-      - Always use an inline citation with the numbers to pertain to the answer for each respective reference. You should be using the exact IEEE format for the citations when giving your answer.
+      - Always use an inline citation with the numbers to pertain to the answer for each respective reference. You should be using the exact IEEE format for the citations when giving your answer. ALWAYS START WITH [1] and increment the number for each reference.
       - DO NOT label the answer, only label the references. For example:
           ```
             This is a sample explanation of the answer here [1]. According to XX [2], the answer is YY. The study by ZZ [3][4] also supports this conclusion. 
