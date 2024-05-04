@@ -6,7 +6,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 
 from formatter_prompts import FormatterPrompts
     
-def get_references():
+def get_references(pdf_name):
   # Load the PDF
   loader = PyPDFLoader(f"{pdf_name}")
   document = loader.load_and_split()

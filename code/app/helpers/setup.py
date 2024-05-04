@@ -78,7 +78,7 @@ def setup_search_papers_chain(vectorstore, query):
 
 
 from langchain.chains.summarize import load_summarize_chain
-from langchain.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 async def setup_summary_chain(index_name, filename):
   """ 
