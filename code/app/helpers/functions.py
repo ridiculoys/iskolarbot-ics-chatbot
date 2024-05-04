@@ -34,20 +34,28 @@ async def summarize_paper(vectorstore, args, user_query, topic, index_name):
 
       # print(f"user: {user_query}\n===\ntemplate: {question}")
       chain = cl.user_session.get("summary_chain")
-      results = await chain.ainvoke({"topic": topic, "question": question, "summaries": context})
+      response = await chain.ainvoke({"topic": topic, "question": question, "summaries": context})
 
-      return results["answer"]
+      references = f"\n\nReference:\n[1] {results[0].metadata['reference']}" if results.length > 0 else ""
+
+      return response["answer"]
 
     template = f"Paper entitled `{args['paper_title']}`"
     results = vectorstore.similarity_search_with_score(template, k=3)
 
-    filenames = list(set([result[0].metadata['file_name'] for result in results]))
+    filenames = []
+    references = []
+    for result in results:
+      filenames.append(result[0].metadata['file_name'])
+      references.append(result[0].metadata['reference'])
 
     if len(filenames) == 0:
       results = "The requested paper is not found in my current dataset. Would you like to search about another paper?"
       return results
 
     results = await setup_summary_chain(index_name=index_name, filename=filenames[0])
+
+    results += f"\n\nReference:\n[1] {references[0]}" if references.length > 0 else ""
   except Exception as e:
     results = f"query failed with error: {e}"
   return results
@@ -125,15 +133,15 @@ import json
 async def execute_function_call(vectorstore, message, user_query, topic, index_name, chat_history):
     if message.tool_calls[0].function.name == "summarize_paper":
       args = json.loads(message.tool_calls[0].function.arguments)
-      # print("args", args)
+      print("args", args)
       results = await summarize_paper(vectorstore, args, user_query, topic, index_name)
     elif message.tool_calls[0].function.name == "get_related_literature":
       args = json.loads(message.tool_calls[0].function.arguments)
-      # print("args", args)
+      print("args", args)
       results = get_related_literature(vectorstore, args)
     elif message.tool_calls[0].function.name == "get_answer": 
       args = json.loads(message.tool_calls[0].function.arguments)
-      # print("args", args)
+      print("args", args)
       results = await answer_user_query(vectorstore, args, user_query, topic, chat_history)
     else:
         results = f"Error: function {message.tool_calls[0].function.name} does not exist"
