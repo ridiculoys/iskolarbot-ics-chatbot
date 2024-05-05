@@ -36,7 +36,7 @@ async def summarize_paper(vectorstore, args, user_query, topic, index_name):
       chain = cl.user_session.get("summary_chain")
       response = await chain.ainvoke({"topic": topic, "question": question, "summaries": context})
 
-      references = f"\n\nReference:\n[1] {results[0].metadata['reference']}" if results.length > 0 else ""
+      references = f"\n\nReference:\n[1] {results[0].metadata['reference']}" if len(results) > 0 else ""
 
       return response["answer"]
 
@@ -55,7 +55,7 @@ async def summarize_paper(vectorstore, args, user_query, topic, index_name):
 
     results = await setup_summary_chain(index_name=index_name, filename=filenames[0])
 
-    results += f"\n\nReference:\n[1] {references[0]}" if references.length > 0 else ""
+    results += f"\n\nReference:\n[1] {references[0]}" if len(references) > 0 else ""
   except Exception as e:
     results = f"query failed with error: {e}"
   return results
