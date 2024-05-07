@@ -86,22 +86,6 @@ async def answer_user_query(vectorstore, args, user_query, topic, chat_history):
 
     results = vectorstore.similarity_search(user_query, k=10)
 
-    #todo: for each filename, add the reference and remove the summaries
-    # context = ""
-    # for idx, doc in enumerate(documents):
-    #   content = doc.page_content
-    #   reference = doc.metadata['reference']
-    #   reference = doc.metadata['file_name']
-
-    #   context += f"""
-    #     Document #{idx+1}
-    #     Content:
-    #       ```{content}```
-
-    #     Exact Reference: `{reference}`
-    #     ==
-    #   """
-
     filenames = list(set([result.metadata['file_name'] for result in results]))
     added = []
 
