@@ -46,13 +46,13 @@ def setup_search_content_chain(pinecone_vectorstore, template=SearchPrompts.answ
       retriever=pinecone_vectorstore.as_retriever(),
       chain_type_kwargs={
           "prompt": template,
-          "verbose": True,
+          # "verbose": True,
           # "memory": ConversationBufferMemory(
           #   memory_key='history',
           #   input_key='question'),
       },
       # memory=memory, #makes it hallucinate a bit
-      verbose=True,
+      # verbose=True,
   )
 
   return chain
@@ -117,7 +117,8 @@ async def setup_summary_chain(index_name, filename):
   
   # print(f"Loading {len(docs)} documents")
   
-  chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=True)
+  chain = load_summarize_chain(llm, chain_type="map_reduce")
+  # chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=True)
   # chain = load_summarize_chain(llm, chain_type="map_reduce", return_intermediate_steps=True, verbose=True)
 
   # arun is deprecated, use ainvoke
