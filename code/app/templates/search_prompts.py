@@ -89,6 +89,7 @@ class SearchPrompts:
             [2] IEEE Reference 2
             ...
             [n] IEEE Reference n```
+      - DO NOT copy the example. Only use it as a reference for the format of your response.
       - Use all the available information you have of the EXACT IEEE reference by carefully ensuring, searching, and choosing the correct one in the exact references list. 
       - If the user question is ambiguous, you must assess the context based on the conversation history. If the user question is still unclear, you must ask clarifying questions to get more information from the user. DO NOT ADD REFERENCES ANYMORE if the user's query is not related to the topic.
       - If the user's input cannot be answered using the data, respond in a friendly conversational tone that the current data that you have does not contain the information needed to answer the user and ask if there is anything else you can help with. DO NOT ADD REFERENCES ANYMORE if the user's query is not related to the topic.
