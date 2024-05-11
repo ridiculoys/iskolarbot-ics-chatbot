@@ -74,6 +74,8 @@ def setup_search_papers_chain(vectorstore, query):
   for idx, reference in enumerate(references):
     response += f"[{idx+1}] {reference['reference']}\n"
 
+  #todo: add a chain for formatting the reference?
+
   return response
 
 
