@@ -117,15 +117,15 @@ import json
 async def execute_function_call(vectorstore, message, user_query, topic, index_name, chat_history):
     if message.tool_calls[0].function.name == "summarize_paper":
       args = json.loads(message.tool_calls[0].function.arguments)
-      print("args", args)
+      # print("args", args)
       results = await summarize_paper(vectorstore, args, user_query, topic, index_name)
     elif message.tool_calls[0].function.name == "get_related_literature":
       args = json.loads(message.tool_calls[0].function.arguments)
-      print("args", args)
+      # print("args", args)
       results = get_related_literature(vectorstore, args)
     elif message.tool_calls[0].function.name == "get_answer": 
       args = json.loads(message.tool_calls[0].function.arguments)
-      print("args", args)
+      # print("args", args)
       results = await answer_user_query(vectorstore, args, user_query, topic, chat_history)
     else:
         results = f"Error: function {message.tool_calls[0].function.name} does not exist"

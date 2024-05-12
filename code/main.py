@@ -116,9 +116,9 @@ async def on_message(msg: cl.Message):
     response = await execute_function_call(vectorstore=vectorstore, message=assistant_message, user_query=msg.content, topic=topic, index_name=index_name, chat_history=chat_history)
     # print("results", response)
 
-    function_data = {"role": "function", "tool_call_id": assistant_message.tool_calls[0].id, "name": assistant_message.tool_calls[0].function.name, "content": response}
+    # function_data = {"role": "function", "tool_call_id": assistant_message.tool_calls[0].id, "name": assistant_message.tool_calls[0].function.name, "content": response}
     # chat_history.append(function_data)
-    print("function data", function_data)
+    # print("function data", function_data)
     
     chat_history.append({"role": assistant_message.role, "content": response})
   else:
