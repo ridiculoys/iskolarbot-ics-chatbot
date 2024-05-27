@@ -46,7 +46,7 @@ auto_tag_thread = true
 
 [UI]
 # Name of the app and chatbot.
-name = "ICS Research Assistant Chatbot"
+name = "IskolarBot: Research Assistant Chatbot"
 
 # Show the readme while the thread is empty.
 show_readme_as_default = false

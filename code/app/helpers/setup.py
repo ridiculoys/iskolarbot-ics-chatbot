@@ -78,7 +78,7 @@ def setup_search_papers_chain(vectorstore, query):
 
 
 from langchain.chains.summarize import load_summarize_chain
-from langchain.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 async def setup_summary_chain(index_name, filename):
   """ 
@@ -117,7 +117,8 @@ async def setup_summary_chain(index_name, filename):
   
   # print(f"Loading {len(docs)} documents")
   
-  chain = load_summarize_chain(llm, chain_type="map_reduce",  return_intermediate_steps=True,)
+  chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=True)
+  # chain = load_summarize_chain(llm, chain_type="map_reduce", return_intermediate_steps=True, verbose=True)
 
   # arun is deprecated, use ainvoke
   # summary = await chain.arun(docs)   # better response = docs
